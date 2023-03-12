@@ -47,7 +47,7 @@ const Chat = () => {
                     setMessages(snapshot.docs.map((doc) => ({
                         id: doc.id,
                         ...doc.data()
-                    })));
+                    }) as Message));
                 });
             }
             getRoomName();

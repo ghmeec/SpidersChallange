@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
         color="#3482F6"
         startPosition={0.3}
         stopDelayMs={200}
-        height={3}
+        height={2}
         showOnShallow={true}
       />
       <Toaster
