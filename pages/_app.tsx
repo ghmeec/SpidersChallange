@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { AuthProvider } from "../contexts/auth";
 import ProtectedRoute from "../components/protected";
 import { useRouter } from "next/router";
+import NextNprogress from "nextjs-progressbar";
 
 const protectedRoute = [
   "/app",
@@ -15,6 +16,13 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <NextNprogress
+        color="#3482F6"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={1}
+        showOnShallow={true}
+      />
       <AuthProvider>
         {protectedRoute.includes(router.pathname) ? (
           <ProtectedRoute>

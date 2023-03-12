@@ -69,11 +69,13 @@ export default function Home() {
 
 
   useEffect(() => {
-    if (user && !profile && !loading) {
-      router.push("/create-profile")
-    }
     if (user && profile) {
       router.push("/app")
+    }
+    if (user && !profile && !loading) {
+      router.push("/create-profile")
+    } else {
+
     }
   }, [user, profile])
 
