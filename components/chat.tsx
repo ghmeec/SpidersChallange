@@ -4,7 +4,7 @@ import Style from "../styles/chat.module.scss"
 import { BsSearch, BsThreeDotsVertical, BsEmojiHeartEyes, BsMic } from 'react-icons/bs';
 import { IoAttachOutline } from 'react-icons/io5';
 import { db, auth } from '../firebase';
-import { collection, getDocs, doc, addDoc, onSnapshot, serverTimestamp, orderBy, query, FieldValue, Timestamp } from "firebase/firestore";
+import { collection, getDocs, doc, addDoc, onSnapshot, orderBy, query, FieldValue, Timestamp } from "firebase/firestore";
 import { useRouter } from 'next/router';
 import { useAuth } from '@/contexts/auth';
 import Sidebar from "./sidebar"
@@ -60,6 +60,7 @@ const Chat = () => {
     }, [roomId]);
 
 
+    // scroll to the last added view
     useEffect(() => {
         if (scollToRef.current) {
             scollToRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -67,7 +68,7 @@ const Chat = () => {
 
     }, [messages])
 
-    const sendMessage = (e) => {
+    const sendMessage = (e: any) => {
         e.preventDefault();
         if (roomId) {
             const final = {
