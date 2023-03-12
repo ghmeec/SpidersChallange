@@ -36,7 +36,7 @@ export default function Profile() {
         }
 
 
-    }, [user, profile])
+    }, [user, profile,router])
 
 
     return (
