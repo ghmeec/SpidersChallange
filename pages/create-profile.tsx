@@ -12,21 +12,24 @@ export default function Profile() {
     const router = useRouter()
 
     const [name, setName] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     console.log("User", user)
 
     const createProfile = () => {
         console.log("Creating profile ")
         if (user) {
+            setIsLoading(true)
             const cityRef = doc(db, 'profiles', user.uid);
             setDoc(cityRef, {
                 id: user.uid,
                 name: name,
-                displayName:name,
+                displayName: name,
                 createdAt: new Date(),
                 updatedAt: new Date()
 
             }, { merge: true });
+            setIsLoading(false)
         }
     }
 
@@ -36,7 +39,7 @@ export default function Profile() {
         }
 
 
-    }, [user, profile,router])
+    }, [user, profile, router])
 
 
     return (
@@ -80,7 +83,7 @@ export default function Profile() {
                             onClick={createProfile}
 
                         >
-                            Complete Profile
+                            {isLoading ? "Creating a profile ..." : "Create Profile"}
                         </button>
                     </div>
                 </div>

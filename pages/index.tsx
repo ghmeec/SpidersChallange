@@ -21,6 +21,8 @@ export default function Home() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const router = useRouter()
 
   const setRegisterAsActive = () => {
@@ -33,17 +35,21 @@ export default function Home() {
 
   const login = () => {
     console.log("Login")
+    setIsLoading(true)
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
         alert("Sign in As : " + user.uid)
+        router.push("/app")
+        setIsLoading(false)
         // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage)
+        setIsLoading(false)
 
         // ..
       });
@@ -51,17 +57,25 @@ export default function Home() {
 
   const register = () => {
     console.log("register")
+    if(password!==confirmPassword){
+      alert("The two password dont match")
+      return 
+    }
+    setIsLoading(true)
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
         alert("Successfully created the user")
+
+        setIsLoading(false)
         // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage)
+        setIsLoading(false)
         // ..
       });
 
@@ -77,7 +91,7 @@ export default function Home() {
     } else {
 
     }
-  }, [user, profile])
+  }, [user, profile,router])
 
 
   return (
@@ -91,11 +105,7 @@ export default function Home() {
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <div>
-            <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            />
+
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
               Sign in to your account
             </h2>
@@ -129,9 +139,9 @@ export default function Home() {
           </div>
           <div className="mt-8 space-y-6">
             <input type="hidden" name="remember" defaultValue="true" />
-            <div className="-space-y-px shadow-sm">
+            <div className="space-y-2 shadow-sm">
               <div>
-                <label htmlFor="email-address" className="sr-only">
+                <label htmlFor="email-address" className="">
                   Email address
                 </label>
                 <input
@@ -146,7 +156,7 @@ export default function Home() {
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">
+                <label htmlFor="password" className="">
                   Password
                 </label>
                 <input
@@ -167,7 +177,7 @@ export default function Home() {
 
               {activeForm === "register" &&
                 <div>
-                  <label htmlFor="confirm_password" className="sr-only">
+                  <label htmlFor="confirm_password" className="-">
                     Confirm Password
                   </label>
                   <input
@@ -188,21 +198,30 @@ export default function Home() {
 
             <div>
               <button
-                className="group relative flex w-full justify-center  border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className={
+                  clsx("group relative flex w-full justify-center  border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
+                    isLoading ? "bg-indigo-300" : "")
+                }
                 onClick={
                   activeForm === "login" ?
                     login
                     :
                     register
                 }
+                disabled={isLoading}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                 </span>
+
                 {activeForm === "login" ?
-                  "Sign in"
+                  <>
+                    {isLoading ? "Logging in..." : "Sign in"}
+                  </>
                   :
-                  "Register"
+                  <>
+                    {isLoading ? "Creating a new user ..." : "Register"}
+                  </>
                 }
 
               </button>
