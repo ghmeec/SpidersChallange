@@ -74,8 +74,7 @@ const Chat = () => {
         setInput('');
     }
 
-    console.log("Profile")
-    console.log(profile)
+    
     return (
         < div className={`${Style.app__chat}`
         }>

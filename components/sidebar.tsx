@@ -67,7 +67,7 @@ const Sidebar = () => {
                     </button>
                     <div>
                         <p className='text-slate-900'>Welcome</p>
-                        <p className='text-slate-900'>{profile?.name}</p>
+                        <p className='text-slate-900'>{profile?.displayName}</p>
                     </div>
                 </div>
                 <div className={`inline-flex relative z-10 `}>
