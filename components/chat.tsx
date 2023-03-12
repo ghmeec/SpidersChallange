@@ -10,11 +10,12 @@ import { useAuth } from '@/contexts/auth';
 import Sidebar from "./sidebar"
 
 type Message = {
-    name: string
-    message: string,
-    timestamp: Timestamp,
-    createdAt: Timestamp,
-    updatedAt: Timestamp
+    id:string;
+    name: string;
+    message: string;
+    timestamp: Timestamp;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 }
 
 const Chat = () => {
@@ -40,7 +41,10 @@ const Chat = () => {
             const getMessages = async () => {
                 const qq = query(collection(connRef, roomId, 'messages'), orderBy('timestamp', 'asc'));
                 onSnapshot(qq, (snapshot) => {
-                    setMessage(snapshot.docs.map((doc) => doc.data()));
+                    setMessage(snapshot.docs.map((doc) =>({
+                        id:doc.id,
+                        ...doc.data()
+                    })));
                 });
             }
             getRoomName();
@@ -93,7 +97,7 @@ const Chat = () => {
             <div className={`${Style.chat__body} bg-[#e5ddd5]`}>
                 {
                     message.map((msg) => (
-                        <div className={`${Style.chat__message} ${msg.name == profile?.displayName ? Style.chat__receiver : ''} `}>
+                        <div key={msg.id} className={`${Style.chat__message} ${msg.name == profile?.displayName ? Style.chat__receiver : ''} `}>
                             {
                                 msg.name == profile?.displayName ?
                                     '' : <span className={`${Style.chat__name}`}>{msg.name}</span>
