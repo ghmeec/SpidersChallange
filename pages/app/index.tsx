@@ -4,7 +4,7 @@ import React from 'react'
 import { signOut } from "firebase/auth";
 import { auth } from '@/firebase';
 
-import Home from "../../components/chat"
+import Home from "../../components/home"
 
 export default function ChatApp() {
   const { profile } = useAuth()
