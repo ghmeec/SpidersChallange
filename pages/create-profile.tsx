@@ -22,6 +22,7 @@ export default function Profile() {
             setDoc(cityRef, {
                 id: user.uid,
                 name: name,
+                displayName:name,
                 createdAt: new Date(),
                 updatedAt: new Date()
 
