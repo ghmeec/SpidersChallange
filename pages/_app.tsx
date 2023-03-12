@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
         color="#3482F6"
         startPosition={0.3}
         stopDelayMs={200}
-        height={1}
+        height={3}
         showOnShallow={true}
       />
       <AuthProvider>

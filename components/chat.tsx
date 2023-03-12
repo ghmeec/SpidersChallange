@@ -61,8 +61,8 @@ const Chat = () => {
                 message: input,
                 name: profile?.displayName,
                 timestamp: new Date(),
-                createdAt:new Date(),
-                updatedAt:new Date()
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
             console.log("Final ")
             console.log(final)
@@ -88,13 +88,9 @@ const Chat = () => {
                     <h2 className='font-medium'>{roomName}</h2>
                     <p className='text-xs'>Last seen today at 10:30 PM </p>
                 </div>
-                <div className='flex justify-between'>
-                    <button className={`${Style.sidebar__btn} rounded-full`}><BsSearch /> </button>
-                    <button className={`${Style.sidebar__btn} rounded-full`}><IoAttachOutline /> </button>
-                    <button className={`${Style.sidebar__btn} rounded-full`}><BsThreeDotsVertical /> </button>
-                </div>
+               
             </div>
-            <div className={`${Style.chat__body}`}>
+            <div className={`${Style.chat__body} bg-[#e5ddd5]`}>
                 {
                     message.map((msg) => (
                         <div className={`${Style.chat__message} ${msg.name == profile?.displayName ? Style.chat__receiver : ''} `}>
@@ -103,7 +99,6 @@ const Chat = () => {
                                     '' : <span className={`${Style.chat__name}`}>{msg.name}</span>
 
                             }
-
                             <p>{msg.message}<span className={`${Style.chat__timestamp}`}>{new Date(msg.timestamp.toDate()).toUTCString()}</span></p>
                         </div>
 
@@ -114,24 +109,16 @@ const Chat = () => {
 
 
             </div>
-            <div className={`${Style.chat__footer}`}>
-                <div className=''>
-                    <button className={`${Style.footer__emoji__btn}`} ><BsEmojiHeartEyes /></button>
-                </div>
+            <div className={`${Style.chat__footer} px-4`}>
                 <div className={`${Style.chat__massage__box}`}>
                     <form action="" className={`${Style.send__message_form}`}>
                         <input value={input} onChange={(e) => {
                             setInput(e.target.value)
-                        }} className={`${Style.send__massage__input}`} type="text" placeholder="Type a message" />
+                        }} className={`flex-1 rounded-sm`} type="text" placeholder="Type a message" />
                         <button onClick={sendMessage} type="submit" className='hidden'>Send</button>
                     </form>
                 </div>
-                <div>
 
-
-                    <button className={`${Style.footer__emoji__btn}`} ><BsMic /></button>
-
-                </div>
             </div>
         </ div>
     );
@@ -139,8 +126,8 @@ const Chat = () => {
 
 const ChatRoom = () => {
     return (
-        <div className={`grid place-items-center bg-slate-900 min-h-screen`}>
-            <div className={`${Style.app__body} flex`}>
+        <div className={`grid place-items-center bg-[#ececec] min-h-screen `}>
+            <div className={`h-[100vh] w-[100vw] overflow-hidden flex`}>
                 <Sidebar />
                 <Chat />
             </div>
