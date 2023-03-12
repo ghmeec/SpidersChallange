@@ -20,6 +20,14 @@ yarn dev
 pnpm dev
 ```
 
+Steps in testing the application
+
+```bash
+1. Registering the user
+2. Creating user profile
+3. Start charting
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
