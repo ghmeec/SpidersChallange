@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // import from 'react';
 import Style from "../styles/chat.module.scss"
 import { BsSearch, BsThreeDotsVertical, BsEmojiHeartEyes, BsMic } from 'react-icons/bs';
@@ -10,7 +10,7 @@ import { useAuth } from '@/contexts/auth';
 import Sidebar from "./sidebar"
 
 type Message = {
-    id:string;
+    id: string;
     name: string;
     message: string;
     timestamp: Timestamp;
@@ -21,11 +21,14 @@ type Message = {
 const Chat = () => {
     const [input, setInput] = useState('');
 
+    const scollToRef = useRef<HTMLDivElement | null>(null);
+
+
     const router = useRouter()
     const { roomId } = router.query;
 
     const [roomName, setRoomName] = useState('');
-    const [message, setMessage] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const connRef = collection(db, 'rooms');
     const { user, profile } = useAuth();
 
@@ -41,8 +44,8 @@ const Chat = () => {
             const getMessages = async () => {
                 const qq = query(collection(connRef, roomId, 'messages'), orderBy('timestamp', 'asc'));
                 onSnapshot(qq, (snapshot) => {
-                    setMessage(snapshot.docs.map((doc) =>({
-                        id:doc.id,
+                    setMessages(snapshot.docs.map((doc) => ({
+                        id: doc.id,
                         ...doc.data()
                     })));
                 });
@@ -57,6 +60,12 @@ const Chat = () => {
     }, [roomId]);
 
 
+    useEffect(() => {
+        if (scollToRef.current) {
+            scollToRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+
+    }, [messages])
 
     const sendMessage = (e) => {
         e.preventDefault();
@@ -92,11 +101,11 @@ const Chat = () => {
                     <h2 className='font-medium'>{roomName}</h2>
                     <p className='text-xs'>Last seen today at 10:30 PM </p>
                 </div>
-               
+
             </div>
             <div className={`${Style.chat__body} bg-[#e5ddd5]`}>
                 {
-                    message.map((msg) => (
+                    messages.map((msg) => (
                         <div key={msg.id} className={`${Style.chat__message} ${msg.name == profile?.displayName ? Style.chat__receiver : ''} `}>
                             {
                                 msg.name == profile?.displayName ?
@@ -109,9 +118,7 @@ const Chat = () => {
 
                     ))
                 }
-
-
-
+                <div ref={scollToRef}></div>
             </div>
             <div className={`${Style.chat__footer} px-4`}>
                 <div className={`${Style.chat__massage__box}`}>

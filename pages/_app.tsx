@@ -4,6 +4,7 @@ import { AuthProvider } from "../contexts/auth";
 import ProtectedRoute from "../components/protected";
 import { useRouter } from "next/router";
 import NextNprogress from "nextjs-progressbar";
+import toast, { Toaster } from 'react-hot-toast';
 
 const protectedRoute = [
   "/app",
@@ -22,6 +23,10 @@ export default function App({ Component, pageProps }: AppProps) {
         stopDelayMs={200}
         height={3}
         showOnShallow={true}
+      />
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
       />
       <AuthProvider>
         {protectedRoute.includes(router.pathname) ? (

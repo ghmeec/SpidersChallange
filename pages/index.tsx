@@ -1,13 +1,14 @@
+
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { LockClosedIcon } from '@heroicons/react/24/solid'
-import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useAuth } from '@/contexts/auth'
 import { useRouter } from 'next/router'
 import { AuthError, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '@/firebase'
+import toast from 'react-hot-toast';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -25,6 +26,20 @@ export default function Home() {
 
   const router = useRouter()
 
+
+  useEffect(() => {
+
+    if (user && !profile && !loading) {
+      router.push("/create-profile")
+
+    }
+    if (user && profile) {
+      router.push("/app")
+    }
+
+  }, [user, profile,loading])
+
+
   const setRegisterAsActive = () => {
     setActiveForm("register")
   }
@@ -40,7 +55,7 @@ export default function Home() {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        alert("Sign in As : " + user.uid)
+        toast.success("Sign in As : " + user.uid)
         setIsLoading(false)
         // ...
       })
@@ -65,8 +80,8 @@ export default function Home() {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        alert("Successfully created the user, You can now proceed with loggin in")
-        setActiveForm("login")
+        toast.success("Successfully created the user, You can now proceed with loggin in")
+        // setActiveForm("login")
         setIsLoading(false)
         // ...
       })
@@ -79,24 +94,6 @@ export default function Home() {
       });
 
   }
-
-
-  useEffect(() => {
-
-    console.log("Data : ",user && !profile && !loading)
-    if (user && !profile && !loading) {
-      console.log("inside Effect running")
-      router.push("/create-profile")
-      
-    } else {
-
-    }
-
-    if (user && profile) {
-      router.push("/app")
-    }
-
-  }, [user, profile, router])
 
 
   return (
