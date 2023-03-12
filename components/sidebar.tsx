@@ -62,7 +62,7 @@ const Sidebar = () => {
             <div className={`flex justify-between px-4 py-2`}>
                 <div className="flex items-center space-x-3">
 
-                    <button className={`${Style.sidebar__btn_head} h-12 w-12 bg-red-500 rounded-full`}>
+                    <button className={`${Style.sidebar__btn_head} h-12 w-12 bg-[#e5ddd5] rounded-full`}>
                         {/* <img src={user.photoURL} alt="user" srcSet="" /> */}
                     </button>
                     <div>
