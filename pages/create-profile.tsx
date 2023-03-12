@@ -53,10 +53,10 @@ export default function Profile() {
                 </div>
                 <div className="mt-8 space-y-6">
                     <input type="hidden" name="remember" defaultValue="true" />
-                    <div className="-space-y-px  shadow-sm">
+                    <div className="space-y-px  shadow-sm">
                         <div>
-                            <label htmlFor="fullName" className="sr-only">
-                                Name
+                            <label htmlFor="fullName" className="">
+                               Full Name
                             </label>
                             <input
                                 id="fullName"
