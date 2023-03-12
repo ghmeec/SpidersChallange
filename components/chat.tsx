@@ -4,7 +4,7 @@ import Style from "../styles/chat.module.scss"
 import { BsSearch, BsThreeDotsVertical, BsEmojiHeartEyes, BsMic } from 'react-icons/bs';
 import { IoAttachOutline } from 'react-icons/io5';
 import { db, auth } from '../firebase';
-import { collection, getDocs, doc, addDoc, onSnapshot, serverTimestamp, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, doc, addDoc, onSnapshot, serverTimestamp, orderBy, query, FieldValue, Timestamp } from "firebase/firestore";
 import { useRouter } from 'next/router';
 import { useAuth } from '@/contexts/auth';
 import Sidebar from "./sidebar"
@@ -12,9 +12,9 @@ import Sidebar from "./sidebar"
 type Message = {
     name: string
     message: string,
-    timestamp: string,
-    createdAt: string,
-    updatedAt: string
+    timestamp: Timestamp,
+    createdAt: Timestamp,
+    updatedAt: Timestamp
 }
 
 const Chat = () => {
@@ -60,7 +60,9 @@ const Chat = () => {
             const final = {
                 message: input,
                 name: profile?.displayName,
-                timestamp: serverTimestamp()
+                timestamp: new Date(),
+                createdAt:new Date(),
+                updatedAt:new Date()
             }
             console.log("Final ")
             console.log(final)
@@ -74,7 +76,7 @@ const Chat = () => {
         setInput('');
     }
 
-    
+
     return (
         < div className={`${Style.app__chat}`
         }>
@@ -102,7 +104,7 @@ const Chat = () => {
 
                             }
 
-                            <p>{msg.message}<span className={`${Style.chat__timestamp}`}>{new Date(msg.timestamp * 1000).toUTCString()}</span></p>
+                            <p>{msg.message}<span className={`${Style.chat__timestamp}`}>{new Date(msg.timestamp.toDate()).toUTCString()}</span></p>
                         </div>
 
 
