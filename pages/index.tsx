@@ -41,7 +41,6 @@ export default function Home() {
         // Signed in 
         const user = userCredential.user;
         alert("Sign in As : " + user.uid)
-        router.push("/app")
         setIsLoading(false)
         // ...
       })
@@ -57,17 +56,17 @@ export default function Home() {
 
   const register = () => {
     console.log("register")
-    if(password!==confirmPassword){
+    if (password !== confirmPassword) {
       alert("The two password dont match")
-      return 
+      return
     }
     setIsLoading(true)
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        alert("Successfully created the user")
-
+        alert("Successfully created the user, You can now proceed with loggin in")
+        setActiveForm("login")
         setIsLoading(false)
         // ...
       })
@@ -83,15 +82,21 @@ export default function Home() {
 
 
   useEffect(() => {
-    if (user && profile) {
-      router.push("/app")
-    }
+
+    console.log("Data : ",user && !profile && !loading)
     if (user && !profile && !loading) {
+      console.log("inside Effect running")
       router.push("/create-profile")
+      
     } else {
 
     }
-  }, [user, profile,router])
+
+    if (user && profile) {
+      router.push("/app")
+    }
+
+  }, [user, profile, router])
 
 
   return (
